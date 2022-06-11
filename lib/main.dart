@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+double peso = 0;
+double altura = 0;
+String classe = 'Normal';
+
 void main() {
   runApp(const MyApp());
 }
@@ -9,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: HomePage(),
     );
   }
@@ -23,14 +27,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  num _imc = 0, peso = 0, altura = 0;
+  double _imc = 0;
 
   void _calcular() {
     setState(() {
-      _imc += 1.0;
+      _imc = peso / (altura * altura);
+      if (_imc < 18.5) {
+        classe = 'Magreza';
+      } else if (_imc < 25) {
+        classe = 'Normal';
+      } else if (_imc < 30) {
+        classe = 'Sobrepeso';
+      } else if (_imc < 40) {
+        classe = 'Obesidade';
+      } else {
+        classe = 'Obesidade Grave';
+      }
+      // print(_imc);
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -39,30 +56,57 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          Container(child: Text(_imc.toString())),
-          Container(
+          Expanded(
+              child: Column(
+            children: [
+              const SizedBox(height: 40),
+              const Text('IMC:',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
+              Text(_imc.toStringAsFixed(1),
+                  style: const TextStyle(
+                      fontSize: 60, fontWeight: FontWeight.w500)),
+              const SizedBox(height: 20),
+              Text(classe,
+                  style: const TextStyle(
+                      fontSize: 40, fontWeight: FontWeight.w500))
+            ],
+          )),
+          SizedBox(
             height: 250,
-            // color: Colors.blue,
+            // color: Color.fromARGB(255, 61, 120, 150),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InputField(titulo: 'Altura', defaultValue: 1.73),
-                InputField(titulo: 'Largura', defaultValue: 60.0),
+                InputField(titulo: 'Peso', defaultValue: 60.0),
               ],
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.calculate_outlined),
-        onPressed: _calcular,
+      floatingActionButton: SizedBox(
+        width: 150,
+        height: 50,
+        child: FloatingActionButton(
+          shape: const BeveledRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          onPressed: _calcular,
+          child: const Text(
+            'Calcular',
+            style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
 
 class InputField extends StatelessWidget {
-  InputField({required this.titulo, required this.defaultValue});
+  InputField({Key? key, required this.titulo, required this.defaultValue})
+      : super(key: key);
 
   String titulo = 'null';
   double defaultValue = 1;
@@ -77,18 +121,23 @@ class InputField extends StatelessWidget {
         child: Column(children: [
           Text(
             titulo,
-            style: TextStyle(fontSize: 30),
+            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
           ),
-          Container(
+          SizedBox(
             width: 80,
             child: TextField(
+                onChanged: (value) {
+                  titulo == 'Altura'
+                      ? altura = double.parse(value)
+                      : peso = double.parse(value);
+                },
                 decoration: InputDecoration(
                   // suffix: Text((titulo == 'altura' ? 'm' : 'kg')),
                   filled: true,
                   fillColor: Colors.white,
                   border: const OutlineInputBorder(),
                   hintText: defaultValue.toString() +
-                      (titulo == 'altura' ? ' m' : ' kg'),
+                      (titulo == 'Altura' ? ' m' : ' kg'),
                 ),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true)),

@@ -59,14 +59,14 @@ class _HomePageState extends State<HomePage> {
           Expanded(
               child: Column(
             children: [
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
               const Text('IMC:',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
               Text(_imc.toStringAsFixed(1),
                   style: const TextStyle(
                       fontSize: 60, fontWeight: FontWeight.w500)),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               Text(classe,
                   style: const TextStyle(
                       fontSize: 40, fontWeight: FontWeight.w500))
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             // color: Color.fromARGB(255, 61, 120, 150),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 InputField(titulo: 'Altura', defaultValue: 1.73),
                 InputField(titulo: 'Peso', defaultValue: 60.0),

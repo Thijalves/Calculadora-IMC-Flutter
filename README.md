@@ -8,4 +8,4 @@ Insira altura e peso e toque em calcular para descobrir seu índice de massa cor
 
 ### Exemplos
 
-![Alt text](readmeImages/img1.png?raw=true "Imagem da aplicação")
+![plot](./readmeImagens/img1.jpg)

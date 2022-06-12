@@ -127,9 +127,19 @@ class InputField extends StatelessWidget {
             width: 80,
             child: TextField(
                 onChanged: (value) {
+                  String temp = '';
+                  //arruma a string
+                  for (int i = 0; i < value.length; i++) {
+                    if (value[i] != ',') {
+                      temp += value[i];
+                    } else {
+                      temp += '.';
+                    }
+                  }
+                  //ternario
                   titulo == 'Altura'
-                      ? altura = double.parse(value)
-                      : peso = double.parse(value);
+                      ? altura = double.parse(temp)
+                      : peso = double.parse(temp);
                 },
                 decoration: InputDecoration(
                   // suffix: Text((titulo == 'altura' ? 'm' : 'kg')),
